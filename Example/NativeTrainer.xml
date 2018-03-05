@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NMS>
+	<Phone>
+		<ContactName>Native Trainer</ContactName>
+		<ContactIcon>CHAR_SOCIAL_CLUB</ContactIcon>
+		<DialTimeout>0</DialTimeout>
+		<Keys>
+			<Key>F4</Key>
+		</Keys>
+	</Phone>
+</NMS>
