@@ -52,30 +52,26 @@ namespace NoMoreShortcuts
 
         private void ContactAnswered(iFruitContact contact)
         {
-            // The contact has answered, we can execute our code
-            UI.Notify("The contact has answered.");
-            UI.Notify("The contact has answered.");
-            _iFruit.Close();
-
             SendKeys.SendWait("{F4}");
+            _iFruit.Close();
         }
 
         private void GetAllProfiles()
         {
             string directory = AppDomain.CurrentDomain.BaseDirectory + "\\NoMoreShortcuts\\";
 
-            // Directory.CreateDirectory(_configDir);
-
             if (Directory.Exists(directory))
             {
                 string[] profiles = Directory.GetFiles(directory, "*.xml");
-                Logger.Log("Profiles count: " + profiles.Count());
-
+                Logger.Log(profiles.Count() + " profiles detected.");
                 foreach (string file in profiles)
+                {
+                    Logger.Log(file);
                     profileCollection.Add(new ProfilesXmlReader(file));
+                }
             }
             else
-                Logger.Log("Error: GetAllProfiles - Path doesn't exist " + directory);
+                Directory.CreateDirectory(directory);            
         }
 
         private void AddProfilesContacts()
