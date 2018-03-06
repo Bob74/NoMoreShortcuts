@@ -7,24 +7,33 @@ using System.IO;
 using System.Windows.Forms;
 
 using GTA;
+using GTA.Native;
 using iFruitAddon2;
+using NativeUI;
 
 namespace NoMoreShortcuts
 {
     public class NMS : Script
     {
         private CustomiFruit _iFruit;
-        private Dictionary<iFruitContact, List<Keys>> contactCollection = new Dictionary<iFruitContact, List<Keys>>();
-        private List<ProfilesXmlReader> profileCollection = new List<ProfilesXmlReader>();
+        private List<Profile> profileCollection = new List<Profile>();
+        internal static string BaseDir = AppDomain.CurrentDomain.BaseDirectory + "\\NoMoreShortcuts";
+        internal static string BannerBlank = BaseDir + "\\blank.png";
 
         public NMS()
         {
             // Reset log file
             Logger.ResetLogFile();
 
+            // Check if blank banner file exists
+            if (!Directory.Exists(BaseDir))
+                Directory.CreateDirectory(BaseDir);
+            if (!File.Exists(BannerBlank))
+                Properties.Resources.blank.Save(BaseDir + "\\blank.png");
+
             _iFruit = new CustomiFruit();
             GetAllProfiles();
-            AddProfilesContacts();
+            AddContacts();
 
             Tick += Initialize;
         }
@@ -40,19 +49,37 @@ namespace NoMoreShortcuts
         {
             if (A_0)
             {
-
+                foreach (Profile profile in profileCollection)
+                    profile.Contact.EndCall();
             }
         }
 
         // Tick Event
         void OnTick(object sender, EventArgs e)
         {
+            foreach (Profile profile in profileCollection)
+                if (profile.Pool != null) profile.Pool.ProcessMenus();
+
             _iFruit.Update();
         }
 
         private void ContactAnswered(iFruitContact contact)
         {
-            SendKeys.SendWait("{F4}");
+            Profile profile = profileCollection.Find(x => x.Contact == contact);
+            if (profile != null)
+            {
+                if (profile.Menu != null)
+                {
+                    profile.Menu.Visible = true;
+                    Function.Call(Hash._0xFC695459D4D0E219, 0.5f, 0.5f);    // Cursor position centered
+                }
+                else
+                {
+                    if (profile.Keys.Count > 0)
+                        KeySender.SendKeys(profile.Keys);
+                }
+            }
+
             _iFruit.Close();
         }
 
@@ -66,22 +93,22 @@ namespace NoMoreShortcuts
                 Logger.Log(profiles.Count() + " profiles detected.");
                 foreach (string file in profiles)
                 {
-                    Logger.Log(file);
-                    profileCollection.Add(new ProfilesXmlReader(file));
+                    Logger.Log(new FileInfo(file).Name);
+                    profileCollection.Add(new Profile(file));
                 }
             }
             else
                 Directory.CreateDirectory(directory);            
         }
 
-        private void AddProfilesContacts()
+        private void AddContacts()
         {
-            foreach (ProfilesXmlReader profile in profileCollection)
+            foreach (Profile profile in profileCollection)
             {
-                iFruitContact contact = profile.GetiFruitContact();
-                contact.Answered += ContactAnswered;
-                _iFruit.Contacts.Add(contact);
+                profile.Contact.Answered += ContactAnswered;
+                _iFruit.Contacts.Add(profile.Contact);
             }
         }
+
     }
 }
