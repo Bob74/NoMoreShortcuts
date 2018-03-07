@@ -9,8 +9,8 @@ Profiles are mainly divided in two parts:
 
 >Menus are useful if a mod uses many shortcuts or if you want to pack differents mods into a single contact.
 
+Example 1
 ---
-
 [Example files are available here](https://github.com/Bob74/NoMoreShortcuts/tree/master/Example/Simple%20example)  
 **Here is an example of the simplest profile:**
 ```XML
@@ -24,8 +24,8 @@ Profiles are mainly divided in two parts:
 ```
 It will add contact named "Name of the contact" which will press "F1" for you when you call it.  
 
+Example 2
 ---
-
 [Example files are available here](https://github.com/Bob74/NoMoreShortcuts/tree/master/Example/Complete%20example)  
 **Here is an example of a very complete profile using a menu:**
 ```XML
