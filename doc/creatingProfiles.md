@@ -16,8 +16,8 @@ The ``Menu`` part which is optional (creates a menu when you call the contact)
 <?xml version="1.0" encoding="utf-8"?>
 <NMS>
     <Phone>
-        <ContactName>Name of the contact</ContactName>
-        <Key>F1</Key>
+        <ContactName>Native Trainer</ContactName>
+        <Key>F4</Key>
     </Phone>
 </NMS>
 ```
