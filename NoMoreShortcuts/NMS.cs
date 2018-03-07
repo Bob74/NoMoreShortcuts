@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Windows.Forms;
+using System.Net;
+using System.Reflection;
 
 using GTA;
 using GTA.Native;
 using iFruitAddon2;
-using NativeUI;
 
 namespace NoMoreShortcuts
 {
@@ -25,21 +23,29 @@ namespace NoMoreShortcuts
             // Reset log file
             Logger.ResetLogFile();
 
+            Tick += Initialize;
+        }
+
+        private void Initialize(object sender, EventArgs e)
+        {
+            while (Game.IsLoading)
+                Yield();
+            while (Game.IsScreenFadingIn)
+                Yield();
+
+            // Check for updates
+            if (IsUpdateAvailable()) NotifyNewUpdate();
+
             // Check if blank banner file exists
             if (!Directory.Exists(BaseDir))
                 Directory.CreateDirectory(BaseDir);
             if (!File.Exists(BannerBlank))
-                Properties.Resources.blank.Save(BaseDir + "\\blank.png");
+                Properties.Resources.blank.Save(BannerBlank);
 
             _iFruit = new CustomiFruit();
             GetAllProfiles();
             AddContacts();
 
-            Tick += Initialize;
-        }
-
-        void Initialize(object sender, EventArgs e)
-        {
             Tick -= Initialize;
             Tick += OnTick;
         }
@@ -68,6 +74,8 @@ namespace NoMoreShortcuts
             Profile profile = profileCollection.Find(x => x.Contact == contact);
             if (profile != null)
             {
+                if (profile.SoundFile != null) WaveStream.PlaySound(profile.SoundFile, profile.Volume);
+
                 if (profile.Menu != null)
                 {
                     profile.Menu.Visible = true;
@@ -85,20 +93,16 @@ namespace NoMoreShortcuts
 
         private void GetAllProfiles()
         {
-            string directory = AppDomain.CurrentDomain.BaseDirectory + "\\NoMoreShortcuts\\";
-
-            if (Directory.Exists(directory))
+            if (Directory.Exists(BaseDir))
             {
-                string[] profiles = Directory.GetFiles(directory, "*.xml");
+                string[] profiles = Directory.GetFiles(BaseDir, "*.xml");
                 Logger.Log(profiles.Count() + " profiles detected.");
                 foreach (string file in profiles)
                 {
                     Logger.Log(new FileInfo(file).Name);
                     profileCollection.Add(new Profile(file));
                 }
-            }
-            else
-                Directory.CreateDirectory(directory);            
+            }         
         }
 
         private void AddContacts()
@@ -108,6 +112,43 @@ namespace NoMoreShortcuts
                 profile.Contact.Answered += ContactAnswered;
                 _iFruit.Contacts.Add(profile.Contact);
             }
+        }
+
+
+
+        private bool IsUpdateAvailable()
+        {
+            string downloadedString = "";
+            Version onlineVersion;
+
+            try
+            {
+                WebClient client = new WebClient();
+                downloadedString = client.DownloadString("https://raw.githubusercontent.com/Bob74/NoMoreShortcuts/master/version");
+
+                downloadedString = downloadedString.Replace("\r", "");
+                downloadedString = downloadedString.Replace("\n", "");
+
+                onlineVersion = new Version(downloadedString);
+
+                client.Dispose();
+
+                if (onlineVersion.CompareTo(Assembly.GetExecutingAssembly().GetName().Version) > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Logger.Log("Error: IsUpdateAvailable - " + e.Message);
+            }
+
+            return false;
+        }
+
+        private void NotifyNewUpdate()
+        {
+            UI.Notify("NoMoreShortcuts: A new update is available!", true);
         }
 
     }

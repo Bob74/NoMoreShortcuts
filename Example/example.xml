@@ -3,56 +3,44 @@
 	<!--
 	<Phone> describes the contact added to the phone (name, icon).
 	
-	<Keys> are the keys you press in game to open the mod menu.
+	<Key> are the keys you press in game to open the mod menu.
 	Example 1 - You have to press "F1" in game:
-			<Keys>
 				<Key>F1</Key>
-			</Keys>
-			
 	Example 2 - You have to press "ALT + Y" in game:
-			<Keys>
 				<Key>ALT</Key>
 				<Key>Y</Key>
-			</Keys>
-	
+				
 	Note that you can use both the name of the key and its hexadecimal value.
 	
 	All keys are listed here:
 	Name (column "Member name"): https://msdn.microsoft.com/en-us/library/system.windows.forms.keys(v=vs.110).aspx
 	Hexadecimal (column "Value"): https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
+	Decimal value : https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+	
 	-->
 	<Phone>
 		<!-- Name of the contact -->
 		<ContactName>Name here</ContactName>
 		<!-- Full icons list: https://wiki.gtanet.work/index.php?title=Notification_Pictures Try to be creative!-->
-		https://github.com/Bob74/iFruitAddon2/blob/master/Image%20Types/ContactIcon.cs
 		<ContactIcon>CHAR_DEFAULT</ContactIcon>
 		
 		<!-- Facultatif : Si clef Menu existe, ne pas prendre en compte -->
-		<Keys>
-			<Key>enum System.Windows.Input.Key</Key>
-		</Keys>
+		<Key>F4</Key>
 	</Phone>
 	
 	<Menu>
 	
 		<SubItem text="Choice 1">
-			<Keys>
-				<Key>F10</Key>
-			</Keys>
+			<Key>F10</Key>
 		</SubItem>
 		
 		<SubMenu text="Choice 2">
 			<SubItem text="Item 1">
-				<Keys>
-					<Key>ALT</Key>
-					<Key>F1</Key>
-				</Keys>
+				<Key>ALT</Key>
+				<Key>F1</Key>
 			</SubItem>
 			<SubItem text="Item 2">
-				<Keys>
-					<Key>F2</Key>
-				</Keys>
+				<Key>F2</Key>
 			</SubItem>
 		</SubMenu>
 		

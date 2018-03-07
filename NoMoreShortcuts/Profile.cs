@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml.Linq;
+
 using iFruitAddon2;
 using NativeUI;
 
@@ -17,6 +14,8 @@ namespace NoMoreShortcuts
         private XElement _file;
 
         internal string FilePath { get; private set; }
+        internal string SoundFile { get; private set; }
+        internal int Volume { get; private set; }
         internal iFruitContact Contact { get; private set; }
         internal List<string> Keys { get; private set; }
         internal MenuPool Pool { get; private set; }
@@ -30,6 +29,8 @@ namespace NoMoreShortcuts
                 {
                     _file = XElement.Load(xmlFile);
                     FilePath = xmlFile;
+                    SoundFile = GetSoundFile();
+                    Volume = GetSoundVolume();
                     Contact = GetiFruitContact();
                     Keys = GetShortcutKeys();
 
@@ -54,7 +55,20 @@ namespace NoMoreShortcuts
         }
 
 
+        private string GetSoundFile()
+        {
+            string file = _file?.Element("Phone")?.Element("SoundFile")?.Value ?? null;
 
+            if (file != null)
+                if (File.Exists(NMS.BaseDir + "\\" + file))
+                    return NMS.BaseDir + "\\" + file;
+
+            return null;
+        }
+        private int GetSoundVolume()
+        {
+            return int.Parse(_file?.Element("Phone")?.Element("Volume")?.Value ?? "25");
+        }
 
         private iFruitContact GetiFruitContact()
         {
@@ -108,6 +122,36 @@ namespace NoMoreShortcuts
             return null;
         }
 
+        /// <summary>
+        /// Creates an UIMenu handling banners.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="subtitle"></param>
+        /// <returns>Created menu.</returns>
+        private UIMenu CreateMenu(string title, string subtitle)
+        {
+            string banner = _file?.Element("Menu")?.Element("Banner")?.Value ?? null;
+
+            if (banner != null)
+            {
+                UIMenu menu = new UIMenu(title, subtitle);
+                if (File.Exists(NMS.BaseDir + "\\" + banner))
+                    menu.SetBannerType(NMS.BaseDir + "\\" + banner);
+                return menu;
+            }
+            else
+            {
+                if (File.Exists(NMS.BannerBlank))
+                {
+                    UIMenu menu = new UIMenu(title, subtitle, new Point(0, -107));
+                    menu.SetBannerType(NMS.BannerBlank);
+                    return menu;
+                }
+            }
+
+            return new UIMenu(title, subtitle);
+        }
+
         private void AddSubitems(XElement startElement, UIMenu menu)
         {
             foreach (XElement subitem in startElement.Elements("SubItem"))
@@ -129,36 +173,6 @@ namespace NoMoreShortcuts
                     }
                 };
             }
-        }
-
-        /// <summary>
-        /// Creates an UIMenu handling banners.
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="subtitle"></param>
-        /// <returns></returns>
-        private UIMenu CreateMenu(string title, string subtitle)
-        {
-            string banner = _file?.Element("Menu")?.Element("Banner")?.Value ?? null;
-
-            if (banner != null)
-            {
-                UIMenu menu = new UIMenu(title, subtitle);
-                if (File.Exists(NMS.BaseDir + "\\" + banner))
-                    menu.SetBannerType(NMS.BaseDir + "\\" + banner);
-                return menu;
-            }
-            else
-            {
-                if (File.Exists(NMS.BannerBlank))
-                {
-                    UIMenu menu = new UIMenu(title, subtitle, new Point(0, -107));
-                    menu.SetBannerType(NMS.BannerBlank);
-                    return menu;
-                }
-            }
-            
-            return new UIMenu(title, subtitle);
         }
 
         private UIMenu AddSubMenu(MenuPool pool, UIMenu menu, string title, string text)

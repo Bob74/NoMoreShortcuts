@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Mod by I'm Not MentaL.
+	Download here: https://fr.gta5-mods.com/scripts/cargo-plane-mod
+-->
+<NMS>
+	<Phone>
+		<ContactName>Cargo plane</ContactName>
+		<ContactIcon>CHAR_PEGASUS_DELIVERY</ContactIcon>
+		<Key>ALT</Key>
+		<Key>C</Key>
+	</Phone>
+</NMS>

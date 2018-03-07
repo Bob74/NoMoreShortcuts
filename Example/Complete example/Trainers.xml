@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NMS>
+    <Phone>
+        <ContactName>Trainers</ContactName>
+        <ContactIcon>CHAR_AMMUNATION</ContactIcon>
+        <SoundFile>Trainers.wav</SoundFile>
+        <Volume>50</Volume>
+    </Phone>
+    <Menu>
+		<Banner>Trainers.png</Banner>
+        <SubItem text="Native Trainer">
+            <Key>F4</Key>
+        </SubItem>
+        <SubMenu text="Other trainers">
+            <SubItem text="Menyoo">
+                <Key>F8</Key>
+            </SubItem>
+            <SubItem text="Police Menu">
+                <Key>F7</Key>
+            </SubItem>
+        </SubMenu>
+    </Menu>
+</NMS>
