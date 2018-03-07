@@ -3,9 +3,9 @@ Profiles are XML files and must be placed in ``<GTA5 main folder>\scripts\NoMore
 Every profile have some mandatory informations to write.
 
 Profiles are mainly divided in two parts:  
-The 
+* The 
 [Phone](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/phone.md) part which is mandatory (creates the phone contact)  
-The ``Menu`` part which is optional (creates a menu when you call the contact)
+* The [Menu](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/menu.md) part which is optional (creates a menu when you call the contact)
 
 >Menus are useful if a mod uses many shortcuts or if you want to pack differents mods into a single contact.
 
