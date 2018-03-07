@@ -26,7 +26,7 @@ You can set multiple keys if the mod allow it:
 (Optional) ContactIcon
 ---
 The icon of the contact.  
-Find the full list of values here: https://wiki.gtanet.work/index.php?title=Notification_Pictures
+Find the full list of values here: https://wiki.gtanet.work/index.php?title=Notification_Pictures (try to be creative!)
 ```XML
 <ContactIcon>CHAR_DEFAULT</ContactIcon>
 ```
