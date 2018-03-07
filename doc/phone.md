@@ -1,6 +1,6 @@
 # Phone
 
-The ``Phone`` part is mandatory and describes the contact to add to the phone.  
+The `Phone` part is mandatory and describes the contact to add to the phone.  
 It contains its name, icon, the key(s) to press and other parameters.
 
 ---
