@@ -27,6 +27,7 @@ You can set multiple keys if the mod allow it:
 ---
 The icon of the contact.  
 Find the full list of values here: https://wiki.gtanet.work/index.php?title=Notification_Pictures (try to be creative!)
+If you don't put <ContactIcon> in your profile, the value will be automatically set to CHAR_DEFAULT.
 ```XML
 <ContactIcon>CHAR_DEFAULT</ContactIcon>
 ```
@@ -35,6 +36,7 @@ Find the full list of values here: https://wiki.gtanet.work/index.php?title=Noti
 ---
 Delay before the contact pickup the phone.  
 Time is set in millisecond. 0 = Instant.
+If you don't put <DialTimeout> in your profile, the value will be automatically set to 0.
 ```XML
 <DialTimeout>0</DialTimeout>
 ```
@@ -51,7 +53,7 @@ The file must be placed in the same folder as the profile.
 ---
 Set the volume the sound file must be played.  
 The value is from 0 to 100.
-If you don't put <Volume> in your profile, the value will beautomatically set to 25.
+If you don't put <Volume> in your profile, the value will be automatically set to 25.
 ```XML
 <Volume>25</Volume>
 ```
