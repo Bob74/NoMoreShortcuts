@@ -21,7 +21,7 @@ Note that the shortcut set by the mods will still work.
 
 Download link
 ---
-[Download at GTA5-Mods](https://fr.gta5-mods.com/scripts/no-more-shortcuts)
+[Download at GTA5-Mods](https://gta5-mods.com/scripts/no-more-shortcuts)
 
 Prerequisites
 ---
