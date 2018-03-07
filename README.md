@@ -21,7 +21,7 @@ Note that the shortcut set by the mods will still work.
 
 Download link
 ---
-
+Not available at the moment.
 
 Prerequisites
 ---
