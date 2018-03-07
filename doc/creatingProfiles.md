@@ -11,6 +11,7 @@ The ``Menu`` part which is optional (creates a menu when you call the contact)
 
 ---
 
+[Example files are available here](https://github.com/Bob74/NoMoreShortcuts/tree/master/Example/Simple%20example)  
 **Here is an example of the simplest profile:**
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -21,10 +22,11 @@ The ``Menu`` part which is optional (creates a menu when you call the contact)
     </Phone>
 </NMS>
 ```
-It will add contact named "Name of the contact" which will press "F1" for you when you call it.
+It will add contact named "Name of the contact" which will press "F1" for you when you call it.  
 
 ---
 
+[Example files are available here](https://github.com/Bob74/NoMoreShortcuts/tree/master/Example/Complete%20example)  
 **Here is an example of a very complete profile using a menu:**
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -58,5 +60,3 @@ The result:
 Main menu | Sub menu "Other trainers"
 ------------ | -------------
 ![Main menu](https://i.imgur.com/veJHHPL.png) | ![Sub menu](https://i.imgur.com/hAZtnP7.png)
-
-
