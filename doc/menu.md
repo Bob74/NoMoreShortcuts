@@ -1,6 +1,6 @@
 # Menu
 
-The `Menu` part is optional and let you create a menu to select differents choices if you have many shortcuts.  
+The `Menu` section is *optional* and let you create a menu to select differents choices if you have many shortcuts.  
 
 The menu must contain at least one of the following parameters:
 * `<SubItem text="name of the item"></SubItem>`
