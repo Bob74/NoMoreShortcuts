@@ -48,6 +48,7 @@ Example 2 - Complete
     <Phone>
         <ContactName>Trainers</ContactName>
         <ContactIcon>CHAR_AMMUNATION</ContactIcon>
+        <DialTimeout>2000</DialTimeout>
         <SoundFile>Trainers.wav</SoundFile>
         <Volume>50</Volume>
     </Phone>
