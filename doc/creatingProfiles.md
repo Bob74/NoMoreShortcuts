@@ -47,6 +47,7 @@ Example 2
                 <Key>F8</Key>
             </SubItem>
             <SubItem text="Police Menu">
+                <Key>ALT</Key>
                 <Key>F7</Key>
             </SubItem>
         </SubMenu>
