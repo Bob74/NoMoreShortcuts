@@ -14,11 +14,14 @@ Profiles contains two main parts: `Phone` and `Menu`
     </Menu>
 </NMS>
 ```
-* The 
-[Phone](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/phone.md) part which is **mandatory** (creates the phone contact)  
-* The [Menu](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/menu.md) part which is *optional* (creates a menu when you call the contact)
-
+The `Phone` section is **mandatory** (creates the phone contact)  
+The `Menu` section is *optional* (creates a menu when you call the contact)  
 >Menus are useful if a mod uses many shortcuts or if you want to pack differents mods into a single contact.
+
+Documentations
+---
+[Phone documentation](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/phone.md) contains all parameters supported for the phone section.  
+[Menu documentation](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/menu.md) contains everything you need to know to create a menu.
 
 Example 1
 ---
