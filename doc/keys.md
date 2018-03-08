@@ -10,6 +10,12 @@ Keys can be written in different ways, here are the supported types:
 * Key’s hexadecimal value (ie: 0x73)
   * `<Key>0x73</Key>`
 
+Remember you can set multiple keys by adding multiple `<Key>`:  
+```XML
+<Key>ALT</Key>
+<Key>F4</Key>
+```
+
 Useful websites
 ---
 Keys name (column "Member name"): [Microsoft Keys Enumeration](https://msdn.microsoft.com/en-us/library/system.windows.forms.keys(v=vs.110).aspx)  
