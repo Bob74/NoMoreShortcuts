@@ -23,7 +23,7 @@ Documentations
 [Phone documentation](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/phone.md) contains all parameters supported for the phone section.  
 [Menu documentation](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/menu.md) contains everything you need to know to create a menu.
 
-Example 1
+Example 1 - Simple
 ---
 [Example files are available here](https://github.com/Bob74/NoMoreShortcuts/tree/master/Example/Simple%20example)  
 **Here is an example of the simplest profile:**
@@ -38,7 +38,7 @@ Example 1
 ```
 It will add contact named "Name of the contact" which will press "F1" for you when you call it.  
 
-Example 2
+Example 2 - Complete
 ---
 [Example files are available here](https://github.com/Bob74/NoMoreShortcuts/tree/master/Example/Complete%20example)  
 **Here is an example of a very complete profile using a menu:**
