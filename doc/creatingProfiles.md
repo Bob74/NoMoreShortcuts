@@ -2,7 +2,7 @@
 Profiles are XML files (= text files with `.xml` extension) and must be placed in `<GTA5 main folder>\scripts\NoMoreShortcuts`.  
 A profile has some mandatory informations that needs to be written.
 
-Profiles are mainly divided in two parts (`Phone` and `Menu`):
+Profiles contains two main parts: `Phone` and `Menu`
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
 <NMS>
