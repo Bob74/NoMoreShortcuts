@@ -1,5 +1,5 @@
 # Creating a new profile
-Profiles are XML files and must be placed in ``<GTA5 main folder>\scripts\NoMoreShortcuts``.  
+Profiles are XML files (= text files with .xml extension) and must be placed in ``<GTA5 main folder>\scripts\NoMoreShortcuts``.  
 Every profile have some mandatory informations to write.
 
 Profiles are mainly divided in two parts:  
