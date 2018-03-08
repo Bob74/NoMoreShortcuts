@@ -14,8 +14,8 @@ Profiles contains two main parts: `Phone` and `Menu`
     </Menu>
 </NMS>
 ```
-The `Phone` section is **mandatory** (creates the phone contact)  
-The `Menu` section is *optional* (creates a menu when you call the contact)  
+The `Phone` section is **mandatory** since it creates the phone contact.  
+The `Menu` section is *optional* (creates a menu when you call the contact).  
 >Menus are useful if a mod uses many shortcuts or if you want to pack differents mods into a single contact.
 
 Documentations
