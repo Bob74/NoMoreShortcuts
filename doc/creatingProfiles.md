@@ -72,6 +72,6 @@ Example 2 - Complete
 The result:  
 ![Phone](https://i.imgur.com/tFoAypl.png)
 
-Main menu | Sub menu "Other trainers"
+Main menu | Submenu "Other trainers"
 ------------ | -------------
 ![Main menu](https://i.imgur.com/veJHHPL.png) | ![Sub menu](https://i.imgur.com/hAZtnP7.png)
