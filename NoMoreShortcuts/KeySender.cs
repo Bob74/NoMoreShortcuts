@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace NoMoreShortcuts
@@ -12,7 +12,7 @@ namespace NoMoreShortcuts
                 "ADD", "SUBTRACT", "MULTIPLY", "DIVIDE"
             };
 
-        public static void SendKeys(List<string> keys)
+        public static bool SendKeys(List<string> keys)
         {
             string keySequence = "(";
             KeysConverter converter = new KeysConverter();
@@ -81,7 +81,17 @@ namespace NoMoreShortcuts
 #if DEBUG
             Logger.Log("Sending: " + keySequence);
 #endif
-            System.Windows.Forms.SendKeys.SendWait(keySequence);
+            try
+            {
+                System.Windows.Forms.SendKeys.SendWait(keySequence);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log("Error: SendKeys (" + keySequence + ") - " + ex.Message);
+                return false;
+            }
+            
+            return true;
         }
 
     }
