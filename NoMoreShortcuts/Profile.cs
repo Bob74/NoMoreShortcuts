@@ -168,7 +168,8 @@ namespace NoMoreShortcuts
                 {
                     if (item == menuItem)
                     {
-                        KeySender.SendKeys(keys);
+                        if (!KeySender.SendKeys(keys))
+                            UI.Notify("An error occured: See NoMoreShortcuts.log for more details.");
                         menu.Visible = false;
                     }
                 };
