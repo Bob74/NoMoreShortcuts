@@ -84,7 +84,11 @@ namespace NoMoreShortcuts
                 else
                 {
                     if (profile.Keys.Count > 0)
-                        KeySender.SendKeys(profile.Keys);
+                    {
+                        if (!KeySender.SendKeys(profile.Keys))
+                            UI.Notify("An error occured: See NoMoreShortcuts.log for more details.");
+                    }
+
                 }
             }
 
