@@ -3,7 +3,7 @@
 Notations
 ---
 Keys can be written in different ways, here are the supported types:
-* Key’s name (ie: F4)
+* Key’s string value (name) (ie: F4)
   * `<Key>F4</Key>`
 * Key’s decimal value (ie: 115)
   * `<Key>115</Key>`
