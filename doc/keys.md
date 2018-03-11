@@ -51,16 +51,16 @@ PRINT SCREEN key | PRINTSCREEN | 0x2C | 44
 INS key | INSERT | 0x2D | 45
 DEL key | DELETE | 0x2E | 46
 HELP key | HELP | 0x2F | 47
-0 key | 0 | 0x30 | 48
-1 key | 1 | 0x31 | 49
-2 key | 2 | 0x32 | 50
-3 key | 3 | 0x33 | 51
-4 key | 4 | 0x34 | 52
-5 key | 5 | 0x35 | 53
-6 key | 6 | 0x36 | 54
-7 key | 7 | 0x37 | 55
-8 key | 8 | 0x38 | 56
-9 key | 9 | 0x39 | 57
+0 key |  | 0x30 | 48
+1 key |  | 0x31 | 49
+2 key |  | 0x32 | 50
+3 key |  | 0x33 | 51
+4 key |  | 0x34 | 52
+5 key |  | 0x35 | 53
+6 key |  | 0x36 | 54
+7 key |  | 0x37 | 55
+8 key |  | 0x38 | 56
+9 key |  | 0x39 | 57
 A key | A | 0x41 | 65
 B key | B | 0x42 | 66
 C key | C | 0x43 | 67
