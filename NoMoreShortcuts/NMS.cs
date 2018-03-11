@@ -4,11 +4,19 @@ using System.Linq;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 
 using GTA;
 using GTA.Native;
 using iFruitAddon2;
+using System.IO.Pipes;
+using System.Runtime.InteropServices;
 
+/*
+    TODO:
+        - Replace exchange file with Pipes between InputSimulator & NoMoreShortcuts
+
+*/
 namespace NoMoreShortcuts
 {
     public class NMS : Script
@@ -84,11 +92,7 @@ namespace NoMoreShortcuts
                 else
                 {
                     if (profile.Keys.Count > 0)
-                    {
-                        if (!KeySender.SendKeys(profile.Keys))
-                            UI.Notify("An error occured: See NoMoreShortcuts.log for more details.");
-                    }
-
+                        KeySender.SendKeys(profile.Keys);
                 }
             }
 

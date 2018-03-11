@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMoreShortcuts", "NoMoreShortcuts\NoMoreShortcuts.csproj", "{F0A3DE56-85C0-438F-9F99-7F26CDC4858F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InputSimulator", "InputSimulator\InputSimulator.vcxproj", "{8D82F34A-1D64-465B-84B1-37F89AD3D20B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,13 @@ Global
 		{F0A3DE56-85C0-438F-9F99-7F26CDC4858F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F0A3DE56-85C0-438F-9F99-7F26CDC4858F}.Release|x64.ActiveCfg = Release|x64
 		{F0A3DE56-85C0-438F-9F99-7F26CDC4858F}.Release|x64.Build.0 = Release|x64
+		{8D82F34A-1D64-465B-84B1-37F89AD3D20B}.Debug|Any CPU.ActiveCfg = Release|x64
+		{8D82F34A-1D64-465B-84B1-37F89AD3D20B}.Debug|Any CPU.Build.0 = Release|x64
+		{8D82F34A-1D64-465B-84B1-37F89AD3D20B}.Debug|x64.ActiveCfg = Release|x64
+		{8D82F34A-1D64-465B-84B1-37F89AD3D20B}.Debug|x64.Build.0 = Release|x64
+		{8D82F34A-1D64-465B-84B1-37F89AD3D20B}.Release|Any CPU.ActiveCfg = Release|x64
+		{8D82F34A-1D64-465B-84B1-37F89AD3D20B}.Release|x64.ActiveCfg = Release|x64
+		{8D82F34A-1D64-465B-84B1-37F89AD3D20B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
