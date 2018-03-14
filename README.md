@@ -9,3 +9,7 @@ Mod installation & Documentation
 Download link
 ---
 [Download at GTA5-Mods](https://gta5-mods.com/scripts/no-more-shortcuts)
+
+Topic on GTAForums
+---
+[GTAForums](http://gtaforums.com/topic/906674-no-more-shortcuts/)
