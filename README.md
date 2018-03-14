@@ -4,7 +4,7 @@ No More Shortcuts lets you add phone contacts that will trigger other mods short
 
 Mod installation & Documentation
 ---
-[Click here to access](https://github.com/Bob74/NoMoreShortcuts/wiki) the wiki!
+[Click here to access the wiki!](https://github.com/Bob74/NoMoreShortcuts/wiki)
 
 Download link
 ---
