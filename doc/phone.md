@@ -57,3 +57,36 @@ The value is from 0 to 100.
 ```XML
 <Volume>25</Volume>
 ```
+
+(Optional) Notification parameters
+---
+**NotificationIcon**  
+The picture of the notification.  
+It needs a phone contact picture to work: https://wiki.gtanet.work/index.php?title=Notification_Pictures
+```XML
+<NotificationIcon>CHAR_DEFAULT</NotificationIcon>
+```
+
+**NotificationTitle**  
+The title of the notification.
+```XML
+<NotificationTitle>Notification title</NotificationTitle>
+```
+
+**NotificationSubtitle**  
+The subtitle of the notification (below the title and smaller).
+```XML
+<NotificationSubtitle>Notification subtitle</NotificationSubtitle>
+```
+
+**NotificationMessage**  
+The body of the notification.
+```XML
+<NotificationMessage>Body message of the notification.</NotificationMessage>
+```
+
+**NotificationDelay**  
+Delay before the notification shows.
+```XML
+<NotificationDelay>0</NotificationDelay>
+```
