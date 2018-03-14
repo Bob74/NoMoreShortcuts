@@ -17,8 +17,7 @@ A `SubItem` **must** contain at least one `Key` parameter (you click on the item
     <Key>F1</Key>
 </SubItem>
 ```
-
-**Notifications**  
+ 
 Subitems can also show a [notification](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/notifications.md).
 
 SubMenu
