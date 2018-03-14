@@ -39,7 +39,7 @@ The subtitle of the notification (below the title and smaller).
 ### (Optional) NotificationDelay
 Delay before the notification shows.  
 Time is set in millisecond. 0 = Instant.  
->If you don't put `<NotificationIcon>` in your profile, the value will be automatically set to 0.
+>If you don't put `<NotificationDelay>` in your profile, the value will be automatically set to 0.
 ```XML
 <NotificationDelay>0</NotificationDelay>
 ```
