@@ -6,7 +6,8 @@ namespace NoMoreShortcuts
 {
     static class KeySender
     {
-        private static string exchangeFile = AppDomain.CurrentDomain.BaseDirectory + "\\..\\" + "NoMoreShortcuts.tmp";
+        private static StreamWriter _pipeWriter;
+        public static StreamWriter PipeWriter { get => _pipeWriter; set => _pipeWriter = value; }
 
         public static void SendKeys(List<string> keys)
         {
@@ -17,35 +18,25 @@ namespace NoMoreShortcuts
             
             keySequence = keySequence.Remove(0, 1); // Remove the first '+'
 
-
             // Sending 
 #if DEBUG
             Logger.Log("Sending: " + keySequence);
 #endif
 
-            StreamWriter sw = new StreamWriter(exchangeFile);
-            bool written = false;
-            while (!written)
+            if (string.IsNullOrEmpty(keySequence)) return;
+            try
             {
-                try
-                {
-                    sw.Write(keySequence);
-                    written = true;
-                }
-                catch (IOException)
-                {
-                    // The file is locked when StreamReader or StreamWriter has opened it.
-                    // We must wait until the file is released.
-                }
-                catch (Exception ex)
-                {
-                    // Unknown error occured
-                    Logger.Log("Error: SendKeys (" + keySequence + ") - " + ex.Message);
-                    written = true;
-                }
+                PipeWriter.Write(keySequence);
+                PipeWriter.Flush();
             }
-
-            sw.Close();
+            catch (IOException ex)
+            {
+                Logger.Log("Error: SendKeys - Pipe is not available " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log("Error: SendKeys - Unknown error " + ex.Message);
+            }
         }
 
     }

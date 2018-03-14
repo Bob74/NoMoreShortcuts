@@ -18,7 +18,7 @@
 #include "Tools.h"
 
 // DEBUG
-#include "script.h"
+//#include "script.h"
 
 const int KEYS_SIZE = 255;
 
@@ -112,24 +112,24 @@ void PressKeyCombination(std::vector<std::string> humanReadableKeys)
 	for (auto &key : humanReadableKeys)
 	{
 		// DEBUG
-		log("key=" + key);
+		//log("key=" + key);
 
 		if (IsInteger(key))
 		{
 			// DEBUG
-			log("IsInteger");
+			//log("IsInteger");
 			keys.push_back(StringToNumber(key));
 		}
 		else if (IsHexNotation(key))
 		{
 			// DEBUG
-			log("IsHexNotation");
+			//log("IsHexNotation");
 			keys.push_back(StringHexToNumber(key));
 		}
 		else
 		{
 			// DEBUG
-			log("String");
+			//log("String");
 			keys.push_back(str2key(key));
 		}
 	}

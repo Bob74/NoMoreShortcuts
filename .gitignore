@@ -1,4 +1,5 @@
-\.vs
-\resources
-\bin
-\obj
+.vs/
+resources/
+bin/
+obj/
+InputSimulator/tmp

@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="iFruit.cs" />
     <Compile Include="KeySender.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Logger.cs" />
@@ -79,6 +80,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools.cs" />
     <Compile Include="WavePlayer.cs" />
   </ItemGroup>
   <ItemGroup>
