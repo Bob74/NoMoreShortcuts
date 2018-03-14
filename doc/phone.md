@@ -1,6 +1,6 @@
 # Phone
 
-The `Phone` section is **mandatory** and describes the contact to add to the phone.  
+The `<Phone>` section is **mandatory** and describes the contact to add to the phone.  
 It contains its name, icon, the key(s) to press and other parameters.
 
 ---
@@ -58,35 +58,6 @@ The value is from 0 to 100.
 <Volume>25</Volume>
 ```
 
-(Optional) Notification parameters
+(Optional) Notifications
 ---
-**NotificationIcon**  
-The picture of the notification.  
-It needs a phone contact picture to work: https://wiki.gtanet.work/index.php?title=Notification_Pictures
-```XML
-<NotificationIcon>CHAR_DEFAULT</NotificationIcon>
-```
-
-**NotificationTitle**  
-The title of the notification.
-```XML
-<NotificationTitle>Notification title</NotificationTitle>
-```
-
-**NotificationSubtitle**  
-The subtitle of the notification (below the title and smaller).
-```XML
-<NotificationSubtitle>Notification subtitle</NotificationSubtitle>
-```
-
-**NotificationMessage**  
-The body of the notification.
-```XML
-<NotificationMessage>Body message of the notification.</NotificationMessage>
-```
-
-**NotificationDelay**  
-Delay before the notification shows.
-```XML
-<NotificationDelay>0</NotificationDelay>
-```
+You can display a notification when the contact answer the call. See [Notifications](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/notifications.md).
