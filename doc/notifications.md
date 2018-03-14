@@ -16,7 +16,8 @@ The body of the notification.
 
 ### (Optional) NotificationIcon
 The picture of the notification.  
-It needs a phone contact picture to work: https://wiki.gtanet.work/index.php?title=Notification_Pictures  
+It needs a phone contact picture to work.  
+Find the full list of values here: https://wiki.gtanet.work/index.php?title=Notification_Pictures
 >If you don't put `<NotificationIcon>` in your profile, the value will be automatically set to the same as `<ContactIcon>`.
 ```XML
 <NotificationIcon>CHAR_DEFAULT</NotificationIcon>
