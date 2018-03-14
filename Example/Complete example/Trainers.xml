@@ -8,12 +8,22 @@
         <Volume>50</Volume>
     </Phone>
     <Menu>
-		<Banner>Trainers.png</Banner>
+        <Banner>Trainers.png</Banner>
         <SubItem text="Native Trainer">
+            <NotificationIcon>CHAR_DEFAULT</NotificationIcon>
+            <NotificationTitle>Simple Trainer</NotificationTitle>
+            <NotificationSubtitle>The simplest trainer</NotificationSubtitle>
+            <NotificationMessage>This notification has been displayed 4.2 seconds after selecting the item.</NotificationMessage>
+            <NotificationDelay>4200</NotificationDelay>
             <Key>F4</Key>
         </SubItem>
         <SubMenu text="Other trainers">
             <SubItem text="Menyoo">
+                <NotificationIcon>CHAR_LESTER_DEATHWISH</NotificationIcon>
+                <NotificationTitle>Menyoo</NotificationTitle>
+                <NotificationSubtitle>Man yo see Menyoo's menu?</NotificationSubtitle>
+                <NotificationMessage>This notification has been displayed instantly!</NotificationMessage>
+                <NotificationDelay>0</NotificationDelay>
                 <Key>F8</Key>
             </SubItem>
             <SubItem text="Police Menu">
