@@ -1,6 +1,6 @@
 # NoMoreShortcuts
 
-![Phone menu](https://i.imgur.com/gddGwUE.png)
+![Phone menu](https://i.imgur.com/ryQMDTE.png)
 
 No More Shortcuts lets you add phone contacts that will trigger other mods shortcuts for you!
 
