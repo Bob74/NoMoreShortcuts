@@ -33,8 +33,7 @@ Prerequisites
 Mod installation
 ---
 * Install all prerequisites.
-* Create a folder named **scripts** in your GTA V main directory (the one that contains **GTAV.exe**).
-* Copy **NoMoreShortcuts.dll** and the **NoMoreShortcuts** folder to your scripts directory.
+* Copy **NoMoreShortcuts.dll** and the **NoMoreShortcuts** folder to your your GTA V main directory (the one that contains **GTAV.exe**).
 * Create or install an existing XML profile.
 
 Installing an existing profile
