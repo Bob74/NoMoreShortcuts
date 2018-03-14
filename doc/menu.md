@@ -18,6 +18,9 @@ A `SubItem` **must** contain at least one `Key` parameter (you click on the item
 </SubItem>
 ```
 
+**Notifications**  
+Subitems can also show a [notification](https://github.com/Bob74/NoMoreShortcuts/blob/master/doc/notifications.md).
+
 SubMenu
 ---
 Create a sub menu which will contain SubItem(s).   
