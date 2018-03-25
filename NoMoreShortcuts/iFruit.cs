@@ -45,7 +45,8 @@ namespace NoMoreShortcuts
                                                             profile.Notification.Title,
                                                             profile.Notification.Subtitle,
                                                             profile.Notification.Message,
-                                                            profile.Notification.Delay);
+                                                            profile.Notification.Delay,
+                                                            profile.Notification.Sound);
                     }
                 }
             }

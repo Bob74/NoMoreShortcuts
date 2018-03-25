@@ -81,6 +81,33 @@ bool IsKeyCombinationDown(std::string humanReadableKey)
 void PressKeyCombination(std::vector<int> keys)
 {
 	INPUT Event;
+	Event.type = INPUT_KEYBOARD;
+	Event.ki.wScan = 0;
+	Event.ki.time = 0;
+	Event.ki.dwExtraInfo = 0;
+
+	for (auto &key : keys)
+	{
+		Event.ki.wVk = key;
+		Event.ki.dwFlags = 0;
+		SendInput(1, &Event, sizeof(INPUT));
+
+		WAIT(101);
+	}
+
+	for (auto &key : keys)
+	{
+		Event.ki.wVk = key;
+		Event.ki.dwFlags = KEYEVENTF_KEYUP;
+		SendInput(1, &Event, sizeof(INPUT));
+
+		WAIT(101);
+	}
+
+
+
+
+	/*INPUT Event;
 
 	for (auto &key : keys)
 	{
@@ -103,7 +130,7 @@ void PressKeyCombination(std::vector<int> keys)
 		SendInput(1, &Event, sizeof(Event));
 
 		WAIT(101);
-	}
+	}*/
 }
 
 void PressKeyCombination(std::vector<std::string> humanReadableKeys)

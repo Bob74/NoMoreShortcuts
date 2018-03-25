@@ -9,25 +9,6 @@ using NativeUI;
 
 namespace NoMoreShortcuts
 {
-    public class NotificationParameters
-    {
-        public string Icon { get; private set; }
-        public string Title { get; private set; }
-        public string Subtitle { get; private set; }
-        public string Message { get; private set; }
-        public int Delay { get; private set; }
-        public int EndTimer { get; set; }
-
-        public NotificationParameters(string icon, string title, string subtitle, string message, int delay)
-        {
-            Icon = icon;
-            Title = title;
-            Subtitle = subtitle;
-            Message = message;
-            Delay = delay;
-        }
-    }
-
     class Profile
     {
         private XElement _file;
@@ -35,9 +16,10 @@ namespace NoMoreShortcuts
         internal string FilePath { get; private set; }
         internal iFruitContact Contact { get; private set; }
         internal string ContactIcon { get; private set; }
+        internal bool Bold { get; private set; }
         internal string SoundFile { get; private set; }
         internal int Volume { get; private set; }
-        internal NotificationParameters Notification { get; private set; }
+        internal Notification Notification { get; private set; }
         internal List<string> Keys { get; private set; }
         internal MenuPool Pool { get; private set; }
         internal UIMenu Menu { get; private set; }
@@ -57,9 +39,17 @@ namespace NoMoreShortcuts
 
                     // Notification parameters (phone contact only)
                     // Menu items notifications are handled by the menu item itself.
-                    string[] notif = GetNotificationParameters();
-                    if (notif.GetUpperBound(0) == 3)
-                        Notification = new NotificationParameters(notif[0], notif[1], notif[2], notif[3], GetNotificationDelay());
+                    object[] notif = GetNotificationParameters();
+                    if (notif.GetUpperBound(0) == 5)
+                        Notification = new Notification()
+                        {
+                            Icon = (string)notif[0],
+                            Title = (string)notif[1],
+                            Subtitle = (string)notif[2],
+                            Message = (string)notif[3],
+                            Delay = (int)notif[4],
+                            Sound = (bool)notif[5]
+                        };
                     else
                         Logger.Log("Error: Profile - Error reading notifications parameters.");
 
@@ -94,16 +84,20 @@ namespace NoMoreShortcuts
         /// <param name="subtitle">Subtitle of the notification.</param>
         /// <param name="message">Message of the body of the notification.</param>
         /// <param name="delay">Delay before the notification shows up (in milliseconds).</param>
-        public void ShowNotificationIfAvailable(string icon, string title, string subtitle, string message, int delay)
+        public void ShowNotificationIfAvailable(string icon, string title, string subtitle, string message, int delay, bool sound)
         {
             // We need at least the body message to display a notification
             if (string.IsNullOrEmpty(message)) return;
 
-            NotificationParameters notif = new NotificationParameters((string.IsNullOrEmpty(icon)) ? ContactIcon : icon,
-                                   (title == null) ? Contact.Name : title,
-                                   (subtitle == null) ? "" : subtitle,
-                                   message,
-                                   delay);
+            Notification notif = new Notification()
+            {
+                Icon = (string.IsNullOrEmpty(icon)) ? ContactIcon : icon,
+                Title = (title == null) ? Contact.Name : title,
+                Subtitle = (subtitle == null) ? "" : subtitle,
+                Message = message,
+                Delay = delay,
+                Sound = sound
+            };
 
             // Wait and display the notification without blocking the current thread
             NMS.CurrentInstance.HandleNotification(notif);
@@ -116,7 +110,12 @@ namespace NoMoreShortcuts
         /// <returns>File name.</returns>
         private string GetSoundFile()
         {
-            string file = _file?.Element("Phone")?.Element("SoundFile")?.Value ?? null;
+            string file = null;
+
+            if (_file?.Element("Phone")?.Element("Sound") != null)
+                file = _file.Element("Phone").Element("Sound").Element("SoundFile")?.Value ?? null;
+            else
+                file = _file?.Element("Phone")?.Element("SoundFile")?.Value ?? null;
 
             if (file != null)
                 if (File.Exists(NMS.BaseDir + "\\" + file))
@@ -131,7 +130,10 @@ namespace NoMoreShortcuts
         /// <returns>Sound volume in percent.</returns>
         private int GetSoundVolume()
         {
-            return int.Parse(_file?.Element("Phone")?.Element("Volume")?.Value ?? "25");
+            if (_file?.Element("Phone")?.Element("Sound") != null)
+                return int.Parse(_file.Element("Phone").Element("Sound").Element("Volume")?.Value ?? "25");
+            else
+                return int.Parse(_file?.Element("Phone")?.Element("Volume")?.Value ?? "25");
         }
 
         /// <summary>
@@ -139,24 +141,29 @@ namespace NoMoreShortcuts
         /// The notification is shown when the contact answer the call.
         /// </summary>
         /// <returns></returns>
-        private string[] GetNotificationParameters()
+        private object[] GetNotificationParameters()
         {
-            string[] parameters = { null, null, null, null };
-            parameters[0] = _file?.Element("Phone")?.Element("NotificationIcon")?.Value ?? null;
-            parameters[1] = _file?.Element("Phone")?.Element("NotificationTitle")?.Value ?? "";
-            parameters[2] = _file?.Element("Phone")?.Element("NotificationSubtitle")?.Value ?? "";
-            parameters[3] = _file?.Element("Phone")?.Element("NotificationMessage")?.Value ?? null;
+            object[] parameters = { null, null, null, null, null, null };
 
+            if (_file?.Element("Phone")?.Element("Notification") != null)
+            {
+                parameters[0] = _file.Element("Phone").Element("Notification").Element("NotificationIcon")?.Value ?? null;
+                parameters[1] = _file.Element("Phone").Element("Notification").Element("NotificationTitle")?.Value ?? "";
+                parameters[2] = _file.Element("Phone").Element("Notification").Element("NotificationSubtitle")?.Value ?? "";
+                parameters[3] = _file.Element("Phone").Element("Notification").Element("NotificationMessage")?.Value ?? null;
+                parameters[4] = int.Parse(_file.Element("Phone").Element("Notification").Element("NotificationDelay")?.Value ?? "0");
+                parameters[5] = bool.Parse(_file.Element("Phone").Element("Notification").Element("NotificationSound")?.Value ?? "True");
+            }
+            else
+            {
+                parameters[0] = _file?.Element("Phone")?.Element("NotificationIcon")?.Value ?? null;
+                parameters[1] = _file?.Element("Phone")?.Element("NotificationTitle")?.Value ?? "";
+                parameters[2] = _file?.Element("Phone")?.Element("NotificationSubtitle")?.Value ?? "";
+                parameters[3] = _file?.Element("Phone")?.Element("NotificationMessage")?.Value ?? null;
+                parameters[4] = int.Parse(_file?.Element("Phone")?.Element("NotificationDelay")?.Value ?? "0");
+                parameters[5] = bool.Parse(_file?.Element("Phone")?.Element("NotificationSound")?.Value ?? "True");
+            }
             return parameters;
-        }
-
-        /// <summary>
-        /// Return the delay before the notification is shown.
-        /// </summary>
-        /// <returns>Delay in milliseconds.</returns>
-        private int GetNotificationDelay()
-        {
-            return int.Parse(_file?.Element("Phone")?.Element("NotificationDelay")?.Value ?? "0");
         }
 
         /// <summary>
@@ -167,9 +174,11 @@ namespace NoMoreShortcuts
         {
             string contactName = _file?.Element("Phone")?.Element("ContactName")?.Value ?? "Unknown";
             ContactIcon = _file?.Element("Phone")?.Element("ContactIcon")?.Value ?? "CHAR_DEFAULT";
+            Bold = bool.Parse(_file?.Element("Phone")?.Element("Bold")?.Value ?? "False");
             int dialTimeout = int.Parse(_file?.Element("Phone")?.Element("DialTimeout")?.Value ?? "0");
 
             iFruitContact contact = new iFruitContact(contactName);
+            contact.Bold = Bold;
             contact.Active = true;
             contact.DialTimeout = dialTimeout;
             contact.Icon = new ContactIcon(ContactIcon);
@@ -185,11 +194,18 @@ namespace NoMoreShortcuts
         private List<string> GetShortcutKeys()
         {
             XElement phone = _file.Element("Phone");
-
-            // Getting shortcut keys
             List<string> keys = new List<string>();
-            foreach (XElement key in phone.Elements("Key"))
-                keys.Add(key.Value);
+
+            if (phone.Element("Keys") != null)
+            {
+                foreach (XElement key in phone.Element("Keys").Elements("Key"))
+                    keys.Add(key.Value);
+            }
+            else
+            {
+                foreach (XElement key in phone.Elements("Key"))
+                    keys.Add(key.Value);
+            }
 
             return keys;
         }
@@ -290,7 +306,15 @@ namespace NoMoreShortcuts
                                                         subitem.Element("NotificationTitle")?.Value ?? null,
                                                         subitem.Element("NotificationSubtitle")?.Value ?? null,
                                                         subitem.Element("NotificationMessage")?.Value ?? null,
-                                                        int.Parse(subitem.Element("NotificationDelay")?.Value ?? "0"));
+                                                        int.Parse(subitem.Element("NotificationDelay")?.Value ?? "0"),
+                                                        bool.Parse(subitem.Element("NotificationSound")?.Value ?? "True"));
+
+                            if (subitem.Element("Sound") != null)
+                            {
+                                string file = subitem.Element("Sound").Element("SoundFile")?.Value ?? null;
+                                int volume = int.Parse(subitem.Element("Sound").Element("Volume")?.Value ?? "25");
+                                if (file != null) WaveStream.PlaySound(file, volume);
+                            }
                         }
                     }
                 };

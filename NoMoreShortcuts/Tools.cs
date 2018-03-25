@@ -20,7 +20,7 @@ namespace NoMoreShortcuts
         public static void DrawNotification(string text)
         {
             Function.Call(Hash._SET_NOTIFICATION_TEXT_ENTRY, "CELL_EMAIL_BCON");
-            Function.Call(Hash._ADD_TEXT_COMPONENT_STRING, "CELL_EMAIL_BCON");          //  ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME
+            Function.Call(Hash._ADD_TEXT_COMPONENT_STRING, text);          //  ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME
             Function.Call(Hash._DRAW_NOTIFICATION, false, true);
         }
 
@@ -42,6 +42,24 @@ namespace NoMoreShortcuts
             Function.Call(Hash._DRAW_NOTIFICATION, false, true);
         }
 
+        /// <summary>
+        /// Return the name of the sound set of the current character's phone.
+        /// </summary>
+        /// <returns>Name of the sound set</returns>
+        public static string GetPhoneSoundSet()
+        {
+            switch ((uint)Game.Player.Character.Model.Hash)
+            {
+                case (uint)PedHash.Michael:
+                    return "Phone_SoundSet_Michael";
+                case (uint)PedHash.Franklin:
+                    return "Phone_SoundSet_Franklin";
+                case (uint)PedHash.Trevor:
+                    return "Phone_SoundSet_Trevor";
+                default:
+                    return "Phone_SoundSet_Default";
+            }
+        }
 
         public static bool IsUpdateAvailable()
         {

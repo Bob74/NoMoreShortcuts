@@ -6,9 +6,12 @@ using System.Threading;
 
 using GTA;
 using System.IO.Pipes;
-
+#if DEBUG
+using System.Windows.Forms;
+#endif
 /*
-    
+    2.0.2 (): - Added the ability play the phone's notification sound when showing the notification
+
 	2.0.1 (14/03/2018): - Now using Pipes to communicate with InputSimulator instead of a file.
                         - Added ability to show a notification right after the contact answer the call.
 
@@ -22,6 +25,12 @@ using System.IO.Pipes;
         X Add notification support
         X Replace exchange file with Pipes between InputSimulator & NoMoreShortcuts
 
+        - Notification sound
+        - Contact name Bold
+        - Open profile's menu with shortcut
+        - InputSimulator => Test with Russian & Chinese characters
+
+
 */
 namespace NoMoreShortcuts
 {
@@ -32,14 +41,20 @@ namespace NoMoreShortcuts
 
         private NamedPipeClientStream _pipeClient;
         private Thread _pipeConnectThread;
-        private bool _pipeConnected = false;
+
+        // 0 = Not connected
+        // 1 = Connected
+        // 2 = Error trying to connect
+        public int PipeStatus { get => _pipestatus; }
+        private int _pipestatus = 0;
+
         private iFruit _iFruit;
 
         private static List<Profile> _profileCollection = new List<Profile>();
         internal static List<Profile> ProfileCollection { get => _profileCollection; }
 
-        private static List<NotificationParameters> _notificationCollection = new List<NotificationParameters>();
-        internal static List<NotificationParameters> NotificationCollection { get => _notificationCollection; }
+        private static List<Notification> _notificationCollection = new List<Notification>();
+        internal static List<Notification> NotificationCollection { get => _notificationCollection; }
 
         internal static string BaseDir = AppDomain.CurrentDomain.BaseDirectory + "\\NoMoreShortcuts";
         internal static string BannerBlank = BaseDir + "\\blank.png";
@@ -98,8 +113,8 @@ namespace NoMoreShortcuts
         {
             switch (e.KeyCode)
             {
-                case Keys.NumPad0:
-                    
+                case Keys.Pause:
+                    Tools.DrawNotification("PAUSE key pressed.");
                     break;
             }
         }
@@ -123,18 +138,18 @@ namespace NoMoreShortcuts
         void OnTick(object sender, EventArgs e)
         {
             // Checking Pipe connection
-            if (_pipeConnectThread != null && !_pipeConnected)
+            if (_pipeConnectThread != null && _pipestatus == 0)
             {
                 if (_pipeConnectThread.ThreadState == ThreadState.Stopped)
                 {
                     Logger.Log("Info: Connected to the pipe!");
                     KeySender.PipeWriter = new StreamWriter(_pipeClient);
-                    _pipeConnected = true;
+                    _pipestatus = 1;
                 }
                 else if (_pipeConnectThread.ThreadState == ThreadState.Aborted)
                 {
                     Logger.Log("Error: Pipe connection aborted");
-                    _pipeConnected = true;
+                    _pipestatus = 2;
                 }
             }
 
@@ -147,6 +162,10 @@ namespace NoMoreShortcuts
                                            NotificationCollection[i].Title,
                                            NotificationCollection[i].Subtitle,
                                            NotificationCollection[i].Message);
+
+                    if (NotificationCollection[i].Sound)
+                        Audio.PlaySoundFrontend("Text_Arrive_Tone", Tools.GetPhoneSoundSet());
+
                     NotificationCollection.RemoveAt(i);
                 }
             }
@@ -163,7 +182,7 @@ namespace NoMoreShortcuts
         /// Show the notification after the delay has passed without blocking the thread.
         /// </summary>
         /// <param name="notif">Notification parameters.</param>
-        public void HandleNotification(NotificationParameters notif)
+        public void HandleNotification(Notification notif)
         {
             notif.EndTimer = Game.GameTime + notif.Delay;
             _notificationCollection.Add(notif);

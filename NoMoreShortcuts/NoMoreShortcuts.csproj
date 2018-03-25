@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="iFruit.cs" />
     <Compile Include="KeySender.cs" />
+    <Compile Include="Notification.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="NMS.cs" />

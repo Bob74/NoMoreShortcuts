@@ -24,18 +24,33 @@ namespace NoMoreShortcuts
 #endif
 
             if (string.IsNullOrEmpty(keySequence)) return;
-            try
+
+            switch (NMS.CurrentInstance.PipeStatus)
             {
-                PipeWriter.Write(keySequence);
-                PipeWriter.Flush();
-            }
-            catch (IOException ex)
-            {
-                Logger.Log("Error: SendKeys - Pipe is not available " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log("Error: SendKeys - Unknown error " + ex.Message);
+                case 0:
+                    Logger.Log("Error: SendKeys - Pipe is not connected yet.");
+                    break;
+                case 1:
+                    try
+                    {
+                        PipeWriter.Write(keySequence);
+                        PipeWriter.Flush();
+                    }
+                    catch (IOException ex)
+                    {
+                        Logger.Log("Error: SendKeys - Pipe is not available " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log("Error: SendKeys - Unknown error " + ex.Message);
+                    }
+                    break;
+                case 2:
+                    Logger.Log("Error: SendKeys - Failed to connect the pipe.");
+                    break;
+                default:
+                    Logger.Log("Error: SendKeys - Pipe: Unknown error.");
+                    break;
             }
         }
 
