@@ -103,22 +103,22 @@ namespace NoMoreShortcuts
 
             Tick -= Initialize;
             Tick += OnTick;
-#if DEBUG
-            KeyUp += OnKeyUp;
-#endif
+
+            KeyDown += OnKeyDown;
         }
 
-#if DEBUG
-        void OnKeyUp(object sender, KeyEventArgs e)
+        void OnKeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            foreach (Profile profile in _profileCollection)
             {
-                case Keys.Pause:
-                    Tools.DrawNotification("PAUSE key pressed.");
-                    break;
+                if (profile.MenuHotKey != 0 && profile.MenuHotKeyModifier != 0)
+                {
+                    if (e.KeyCode == (Keys)profile.MenuHotKey && e.Modifiers == (Keys)profile.MenuHotKeyModifier
+                        && !profile.Pool.IsAnyMenuOpen())
+                        profile.Menu.Visible = !profile.Menu.Visible;
+                }
             }
         }
-#endif
 
         // Dispose Event
         protected override void Dispose(bool A_0)

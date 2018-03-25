@@ -23,6 +23,9 @@ namespace NoMoreShortcuts
         internal List<string> Keys { get; private set; }
         internal MenuPool Pool { get; private set; }
         internal UIMenu Menu { get; private set; }
+        internal int MenuHotKey { get; private set; }
+        internal int MenuHotKeyModifier { get; private set; }
+
 
         public Profile(string xmlFile)
         {
@@ -57,10 +60,12 @@ namespace NoMoreShortcuts
                     object[] menu = GetMenu();
                     if (menu != null)
                     {
-                        if (menu.GetUpperBound(0) == 1)
+                        if (menu.GetUpperBound(0) == 3)
                         {
                             Pool = (MenuPool)menu[0];
                             Menu = (UIMenu)menu[1];
+                            MenuHotKey = (int)menu[2];
+                            MenuHotKeyModifier = (int)menu[3];
                         }
                         else
                             Logger.Log("Error: Profile - Error reading menu informations.");
@@ -239,7 +244,13 @@ namespace NoMoreShortcuts
                     AddSubitems(submenu, menu);
                 }
 
-                return new object[] { pool, mainMenu };
+                int hotkey = 0, hotkeyModifier = 0;
+                if (menuElement.Element("Keys")?.Element("Key") != null)
+                {
+
+                }
+
+                return new object[] { pool, mainMenu, hotkey, hotkeyModifier };
             }
             return null;
         }
