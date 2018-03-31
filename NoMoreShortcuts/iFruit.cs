@@ -19,8 +19,11 @@ namespace NoMoreShortcuts
         {
             foreach (Profile profile in NMS.ProfileCollection)
             {
-                profile.Contact.Answered += ContactAnswered;
-                _customiFruit.Contacts.Add(profile.Contact);
+                if (profile.Contact != null)
+                {
+                    profile.Contact.Answered += ContactAnswered;
+                    _customiFruit.Contacts.Add(profile.Contact);
+                }
             }
         }
 

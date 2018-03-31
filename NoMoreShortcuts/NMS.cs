@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Threading;
+using System.IO.Pipes;
 
 using GTA;
-using System.IO.Pipes;
+using GTA.Native;
+
+using SharpDX.XInput;
+
 #if DEBUG
 using System.Windows.Forms;
 #endif
 /*
-    2.0.2 (): - Added the ability play the phone's notification sound when showing the notification
+    2.0.2 (): - Added the ability play the phone's notification sound when showing the notification.
+                        - Contacts names can be written in bold.
+                        - Profies menus items can play a sound when selected.
+                        - Profiles menus can now be opened using a shortcut (keyboard or gamepad). It means you can set your profile to open a menu even without having a new phone contact.
+                        - (InputSimulator) Changed the way keys are sent so it should handle a bit more keys.
 
 	2.0.1 (14/03/2018): - Now using Pipes to communicate with InputSimulator instead of a file.
                         - Added ability to show a notification right after the contact answer the call.
@@ -22,12 +30,12 @@ using System.Windows.Forms;
 
 
     TODO:
+        X Gamepad support for opening profile's menus
         X Add notification support
         X Replace exchange file with Pipes between InputSimulator & NoMoreShortcuts
-
-        - Notification sound
-        - Contact name Bold
-        - Open profile's menu with shortcut
+        X Notification sound
+        X Contact name Bold
+        X Open profile's menu with shortcut
         - InputSimulator => Test with Russian & Chinese characters
 
 
@@ -41,6 +49,9 @@ namespace NoMoreShortcuts
 
         private NamedPipeClientStream _pipeClient;
         private Thread _pipeConnectThread;
+
+        private Controller _gamepad = null;
+        private int _timerGamepadDetection = 0;
 
         // 0 = Not connected
         // 1 = Connected
@@ -111,11 +122,10 @@ namespace NoMoreShortcuts
         {
             foreach (Profile profile in _profileCollection)
             {
-                if (profile.MenuHotKey != 0 && profile.MenuHotKeyModifier != 0)
+                if (e.KeyCode == (Keys)profile.MenuHotKey && IsKeyModifierPressed(profile.MenuHotKeyModifier, e) && !profile.Pool.IsAnyMenuOpen())
                 {
-                    if (e.KeyCode == (Keys)profile.MenuHotKey && e.Modifiers == (Keys)profile.MenuHotKeyModifier
-                        && !profile.Pool.IsAnyMenuOpen())
-                        profile.Menu.Visible = !profile.Menu.Visible;
+                    profile.Menu.Visible = !profile.Menu.Visible;
+                    if (profile.Menu.Visible) Function.Call(Hash._0xFC695459D4D0E219, 0.5f, 0.5f);
                 }
             }
         }
@@ -153,6 +163,13 @@ namespace NoMoreShortcuts
                 }
             }
 
+            // Check for a gamepad connection every 1000ms
+            if (_timerGamepadDetection < Game.GameTime)
+            {
+                CheckForGamepadControler();
+                _timerGamepadDetection = Game.GameTime + 1000;
+            }
+
             // Check queued notifications and show them if their timer has ended
             for (int i = NotificationCollection.Count - 1; i >= 0; i--)
             {
@@ -172,11 +189,61 @@ namespace NoMoreShortcuts
 
             // Process menus from all profiles
             foreach (Profile profile in ProfileCollection)
-                if (profile.Pool != null) profile.Pool.ProcessMenus();
+            {
+                if (profile.Pool != null)
+                {
+                    if (profile.MenuGamepadHotKey != 0)
+                    {
+                        if (_gamepad != null)
+                        {
+                            if (_gamepad.IsConnected)
+                            {
+                                State currentState = _gamepad.GetState();
+                                if (currentState.Gamepad.Buttons != GamepadButtonFlags.None)
+                                {
+                                    // Detect button press
+                                    if (profile.MenuGamepadHotKey == (int)currentState.Gamepad.Buttons)
+                                    {
+                                        profile.Menu.Visible = true;
+                                        if (profile.Menu.Visible) Function.Call(Hash._0xFC695459D4D0E219, 0.5f, 0.5f);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    profile.Pool.ProcessMenus();
+                }
+            }
 
             // Update iFruit (draw contact list)
             _iFruit.CustomiFruit.Update();
         }
+
+
+        private void CheckForGamepadControler()
+        {
+            // Check if galepad is still connected
+            if (_gamepad != null)
+                if (_gamepad.IsConnected)
+                    return;
+                
+            // Otherwise, look for a new one:
+
+            // Initialize XInput
+            Controller[] controllers = new[] { new Controller(UserIndex.One), new Controller(UserIndex.Two), new Controller(UserIndex.Three), new Controller(UserIndex.Four) };
+
+            // Get 1st controller available
+            _gamepad = null;
+            foreach (var selectControler in controllers)
+            {
+                if (selectControler.IsConnected)
+                {
+                    _gamepad = selectControler;
+                    break;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Show the notification after the delay has passed without blocking the thread.
@@ -242,6 +309,36 @@ namespace NoMoreShortcuts
             {
                 Logger.Log("Error: Pipe connection thread has been aborted: " + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Detect if the expected modifier is currently pressed.
+        /// </summary>
+        /// <param name="modifier">Expected modifier (menu hotkey's modifier)</param>
+        /// <param name="e">Current KeyEventArgs obtained via the KeyDown event.</param>
+        /// <returns>Return true if this modifier (and ONLY this modifier) is pressed.</returns>
+        private bool IsKeyModifierPressed(int modifier, KeyEventArgs e)
+        {
+            switch (modifier)
+            {
+                case 0:
+                    // No modifiers
+                    if (!e.Alt && !e.Control && !e.Shift) return true;
+                    break;
+                case 1:
+                    // Only Alt
+                    if (e.Alt && !e.Control && !e.Shift) return true;
+                    break;
+                case 2:
+                    // Only Control
+                    if (!e.Alt && e.Control && !e.Shift) return true;
+                    break;
+                case 4:
+                    // Only Shift
+                    if (!e.Alt && !e.Control && e.Shift) return true;
+                    break;
+            }
+            return false;
         }
     }
 }

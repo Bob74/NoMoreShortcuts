@@ -57,6 +57,12 @@
     <Reference Include="ScriptHookVDotNet2">
       <HintPath>..\..\_bin\ScriptHookVDotNet.2.10.5\ScriptHookVDotNet2.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\_bin\SharpDx\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\..\_bin\SharpDx\SharpDX.XInput.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />

@@ -23,9 +23,9 @@ namespace NoMoreShortcuts
         internal List<string> Keys { get; private set; }
         internal MenuPool Pool { get; private set; }
         internal UIMenu Menu { get; private set; }
-        internal int MenuHotKey { get; private set; }
         internal int MenuHotKeyModifier { get; private set; }
-
+        internal int MenuHotKey { get; private set; }
+        internal int MenuGamepadHotKey { get; private set; }
 
         public Profile(string xmlFile)
         {
@@ -35,40 +35,50 @@ namespace NoMoreShortcuts
                 {
                     _file = XElement.Load(xmlFile);
                     FilePath = xmlFile;
-                    SoundFile = GetSoundFile();
-                    Volume = GetSoundVolume();
-                    Contact = GetiFruitContact();
-                    Keys = GetShortcutKeys();
+                    
+                    // If the profile contains a phone contact
+                    if (_file?.Element("Phone") != null)
+                    {
+                        SoundFile = GetSoundFile();
+                        Volume = GetSoundVolume();
+                        Contact = GetiFruitContact();
+                        Keys = GetShortcutKeys();
 
-                    // Notification parameters (phone contact only)
-                    // Menu items notifications are handled by the menu item itself.
-                    object[] notif = GetNotificationParameters();
-                    if (notif.GetUpperBound(0) == 5)
-                        Notification = new Notification()
-                        {
-                            Icon = (string)notif[0],
-                            Title = (string)notif[1],
-                            Subtitle = (string)notif[2],
-                            Message = (string)notif[3],
-                            Delay = (int)notif[4],
-                            Sound = (bool)notif[5]
-                        };
-                    else
-                        Logger.Log("Error: Profile - Error reading notifications parameters.");
+                        // Notification parameters (phone contact only)
+                        // Menu items notifications are handled by the menu item itself.
+                        object[] notif = GetNotificationParameters();
+                        if (notif.GetUpperBound(0) == 5)
+                            Notification = new Notification()
+                            {
+                                Icon = (string)notif[0],
+                                Title = (string)notif[1],
+                                Subtitle = (string)notif[2],
+                                Message = (string)notif[3],
+                                Delay = (int)notif[4],
+                                Sound = (bool)notif[5]
+                            };
+                        else
+                            Logger.Log("Error: Profile - Error reading notifications parameters.");
+
+                    }
 
                     // If the profile contains menus
-                    object[] menu = GetMenu();
-                    if (menu != null)
+                    if (_file?.Element("Menu") != null)
                     {
-                        if (menu.GetUpperBound(0) == 3)
+                        object[] menu = GetMenu();
+                        if (menu != null)
                         {
-                            Pool = (MenuPool)menu[0];
-                            Menu = (UIMenu)menu[1];
-                            MenuHotKey = (int)menu[2];
-                            MenuHotKeyModifier = (int)menu[3];
+                            if (menu.GetUpperBound(0) == 4)
+                            {
+                                Pool = (MenuPool)menu[0];
+                                Menu = (UIMenu)menu[1];
+                                MenuHotKey = (int)menu[2];
+                                MenuGamepadHotKey = (int)menu[3];
+                                MenuHotKeyModifier = (int)menu[4];
+                            }
+                            else
+                                Logger.Log("Error: Profile - Error reading menu informations.");
                         }
-                        else
-                            Logger.Log("Error: Profile - Error reading menu informations.");
                     }
                 }
                 catch (Exception e)
@@ -244,13 +254,29 @@ namespace NoMoreShortcuts
                     AddSubitems(submenu, menu);
                 }
 
-                int hotkey = 0, hotkeyModifier = 0;
-                if (menuElement.Element("Keys")?.Element("Key") != null)
+                int hotkeyModifier = 0, hotkey = 0, gamepadHotkey = 0;
+                try
                 {
-
+                    if (menuElement.Element("Keys") != null)
+                    {
+                        hotkeyModifier = int.Parse(menuElement.Element("Keys").Element("ModifierKey")?.Value ?? "0");
+                        hotkey = int.Parse(menuElement.Element("Keys").Element("Key")?.Value ?? "0");
+                        gamepadHotkey = int.Parse(menuElement.Element("Keys").Element("GamepadKey")?.Value ?? "0");
+                    }
+                    else
+                    {
+                        hotkeyModifier = int.Parse(menuElement.Element("ModifierKey")?.Value ?? "0");
+                        hotkey = int.Parse(menuElement.Element("Key")?.Value ?? "0");
+                        gamepadHotkey = int.Parse(menuElement.Element("GamepadKey")?.Value ?? "0");
+                    }
+                }
+                catch
+                {
+                    // Hotkeys to open the menu aren't required.
                 }
 
-                return new object[] { pool, mainMenu, hotkey, hotkeyModifier };
+
+                return new object[] { pool, mainMenu, hotkey, gamepadHotkey, hotkeyModifier };
             }
             return null;
         }
