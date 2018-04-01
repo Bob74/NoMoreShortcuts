@@ -54,8 +54,9 @@
     <Reference Include="NativeUI">
       <HintPath>..\..\_bin\NativeUI\NativeUI.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptHookVDotNet2">
-      <HintPath>..\..\_bin\ScriptHookVDotNet.2.10.5\ScriptHookVDotNet2.dll</HintPath>
+    <Reference Include="ScriptHookVDotNet2, Version=2.10.5.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_bin\ScriptHookVDotNet.2.10.6\ScriptHookVDotNet2.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\..\_bin\SharpDx\SharpDX.dll</HintPath>

@@ -12,6 +12,8 @@ using GTA.Native;
 using SharpDX.XInput;
 
 /*
+    2.1.1 (01/04/2018): - Now using latest ScriptHookVDotNet version.
+
     2.1.0 (01/04/2018): - Added the ability to play the phone's notification sound when showing the notification.
                         - Contacts names can be written in bold.
                         - Profies menus items can play a sound when selected.
@@ -224,7 +226,7 @@ namespace NoMoreShortcuts
             if (_gamepad != null)
                 if (_gamepad.IsConnected)
                     return;
-                
+
             // Otherwise, look for a new one:
 
             // Initialize XInput
