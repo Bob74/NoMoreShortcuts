@@ -14,7 +14,7 @@ using SharpDX.XInput;
 using System.Windows.Forms;
 #endif
 /*
-    2.0.2 (): - Added the ability play the phone's notification sound when showing the notification.
+    2.1.0 (): - Added the ability to play the phone's notification sound when showing the notification.
                         - Contacts names can be written in bold.
                         - Profies menus items can play a sound when selected.
                         - Profiles menus can now be opened using a shortcut (keyboard or gamepad). It means you can set your profile to open a menu even without having a new phone contact.

@@ -127,6 +127,7 @@ namespace NoMoreShortcuts
         {
             string file = null;
 
+            // Backward compatibility
             if (_file?.Element("Phone")?.Element("Sound") != null)
                 file = _file.Element("Phone").Element("Sound").Element("SoundFile")?.Value ?? null;
             else
@@ -145,6 +146,7 @@ namespace NoMoreShortcuts
         /// <returns>Sound volume in percent.</returns>
         private int GetSoundVolume()
         {
+            // Backward compatibility
             if (_file?.Element("Phone")?.Element("Sound") != null)
                 return int.Parse(_file.Element("Phone").Element("Sound").Element("Volume")?.Value ?? "25");
             else
@@ -160,6 +162,7 @@ namespace NoMoreShortcuts
         {
             object[] parameters = { null, null, null, null, null, null };
 
+            // Backward compatibility
             if (_file?.Element("Phone")?.Element("Notification") != null)
             {
                 parameters[0] = _file.Element("Phone").Element("Notification").Element("NotificationIcon")?.Value ?? null;
@@ -218,6 +221,7 @@ namespace NoMoreShortcuts
             }
             else
             {
+                // Menu items don't use <Keys> since they are already key containers themselves
                 foreach (XElement key in phone.Elements("Key"))
                     keys.Add(key.Value);
             }
@@ -257,6 +261,7 @@ namespace NoMoreShortcuts
                 int hotkeyModifier = 0, hotkey = 0, gamepadHotkey = 0;
                 try
                 {
+                    // Backward compatibility
                     if (menuElement.Element("Keys") != null)
                     {
                         hotkeyModifier = int.Parse(menuElement.Element("Keys").Element("ModifierKey")?.Value ?? "0");
@@ -339,18 +344,18 @@ namespace NoMoreShortcuts
                         {
                             menu.Visible = false;
                             KeySender.SendKeys(itemKeys);
-                            ShowNotificationIfAvailable(subitem.Element("NotificationIcon")?.Value ?? null,
-                                                        subitem.Element("NotificationTitle")?.Value ?? null,
-                                                        subitem.Element("NotificationSubtitle")?.Value ?? null,
-                                                        subitem.Element("NotificationMessage")?.Value ?? null,
-                                                        int.Parse(subitem.Element("NotificationDelay")?.Value ?? "0"),
-                                                        bool.Parse(subitem.Element("NotificationSound")?.Value ?? "True"));
+                            ShowNotificationIfAvailable(subitem.Element("Notification")?.Element("NotificationIcon")?.Value ?? null,
+                                                        subitem.Element("Notification")?.Element("NotificationTitle")?.Value ?? null,
+                                                        subitem.Element("Notification")?.Element("NotificationSubtitle")?.Value ?? null,
+                                                        subitem.Element("Notification")?.Element("NotificationMessage")?.Value ?? null,
+                                                        int.Parse(subitem.Element("Notification")?.Element("NotificationDelay")?.Value ?? "0"),
+                                                        bool.Parse(subitem.Element("Notification")?.Element("NotificationSound")?.Value ?? "True"));
 
                             if (subitem.Element("Sound") != null)
                             {
                                 string file = subitem.Element("Sound").Element("SoundFile")?.Value ?? null;
                                 int volume = int.Parse(subitem.Element("Sound").Element("Volume")?.Value ?? "25");
-                                if (file != null) WaveStream.PlaySound(file, volume);
+                                if (file != null) WaveStream.PlaySound(NMS.BaseDir + "\\" + file, volume);
                             }
                         }
                     }

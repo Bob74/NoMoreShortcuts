@@ -1,5 +1,4 @@
-﻿
-using GTA.Native;
+﻿using GTA.Native;
 using iFruitAddon2;
 
 namespace NoMoreShortcuts
@@ -42,16 +41,16 @@ namespace NoMoreShortcuts
                 else
                 {
                     if (profile.Keys.Count > 0)
-                    {
                         KeySender.SendKeys(profile.Keys);
-                        profile.ShowNotificationIfAvailable(profile.Notification.Icon,
-                                                            profile.Notification.Title,
-                                                            profile.Notification.Subtitle,
-                                                            profile.Notification.Message,
-                                                            profile.Notification.Delay,
-                                                            profile.Notification.Sound);
-                    }
                 }
+
+                if (profile.Notification != null)
+                    profile.ShowNotificationIfAvailable(profile.Notification.Icon,
+                                profile.Notification.Title,
+                                profile.Notification.Subtitle,
+                                profile.Notification.Message,
+                                profile.Notification.Delay,
+                                profile.Notification.Sound);
             }
 
             _customiFruit.Close();
