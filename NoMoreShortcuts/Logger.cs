@@ -6,14 +6,12 @@ using System.IO;
 /// </summary>
 static class Logger
 {
-    private static string logFileName = "NoMoreShortcuts.log";
-
-    public static void Log(object message)
+    public static void Log(object message, string logFileName = "NoMoreShortcuts.log")
     {
         File.AppendAllText(logFileName, DateTime.Now + " : " + message + Environment.NewLine);
     }
 
-    public static void ResetLogFile()
+    public static void ResetLogFile(string logFileName = "NoMoreShortcuts.log")
     {
         FileStream fs = File.Create(logFileName);
         fs.Close();

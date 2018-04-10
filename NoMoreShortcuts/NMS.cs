@@ -12,6 +12,10 @@ using GTA.Native;
 using SharpDX.XInput;
 
 /*
+    2.1.3 (10/04/2018): - Fixed a crash when reloading ScriptHookVDotNet with a profile having no phone contact.
+
+    2.1.2 (02/04/2018): - Fixed a crash when reloading ScriptHookVDotNet while a Gamepad controler is plugged in.
+
     2.1.1 (01/04/2018): - Now using latest ScriptHookVDotNet version.
 
     2.1.0 (01/04/2018): - Added the ability to play the phone's notification sound when showing the notification.
@@ -136,7 +140,11 @@ namespace NoMoreShortcuts
             if (A_0)
             {
                 foreach (Profile profile in ProfileCollection)
-                    profile.Contact.EndCall();
+                    if (profile.Contact != null)
+                        profile.Contact.EndCall();
+
+                // Removes the gamepad (important, avoid crashing on reload)
+                _gamepad = null;
 
                 if (_pipeConnectThread.IsAlive) _pipeConnectThread.Abort();
                 if (KeySender.PipeWriter != null) KeySender.PipeWriter.Close();
@@ -305,9 +313,17 @@ namespace NoMoreShortcuts
             {
                 Logger.Log("Error: Client already connected to the pipe: " + ex.Message);
             }
-            catch (ThreadAbortException ex)
+            catch (ThreadAbortException)
             {
-                Logger.Log("Error: Pipe connection thread has been aborted: " + ex.Message);
+                // We can't write to the logfile from here since we reset the logfile when launching the plugin.
+                // If a previous thread is still active, it will try to write the Abort exception to the
+                // logfile while the new plugin is already writing in it.
+
+                //Error: Pipe connection thread has been aborted
+            }
+            catch (Exception ex)
+            {
+                Logger.Log("Error: Pipe connection thread Unknown error: " + ex.Message);
             }
         }
 

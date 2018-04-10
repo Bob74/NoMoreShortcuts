@@ -14,12 +14,12 @@ namespace NoMoreShortcuts
         private XElement _file;
 
         internal string FilePath { get; private set; }
-        internal iFruitContact Contact { get; private set; }
+        internal iFruitContact Contact { get; private set; } = null;
         internal string ContactIcon { get; private set; }
         internal bool Bold { get; private set; }
         internal string SoundFile { get; private set; }
         internal int Volume { get; private set; }
-        internal Notification Notification { get; private set; }
+        internal Notification Notification { get; private set; } = null;
         internal List<string> Keys { get; private set; }
         internal MenuPool Pool { get; private set; }
         internal UIMenu Menu { get; private set; }
@@ -59,7 +59,6 @@ namespace NoMoreShortcuts
                             };
                         else
                             Logger.Log("Error: Profile - Error reading notifications parameters.");
-
                     }
 
                     // If the profile contains menus
